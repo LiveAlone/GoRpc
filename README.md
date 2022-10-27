@@ -1,0 +1,2 @@
+# GoRpc
+go rpc call
