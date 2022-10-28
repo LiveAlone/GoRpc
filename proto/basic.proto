@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+message DemoProject {
+  string first = 1;
+}
