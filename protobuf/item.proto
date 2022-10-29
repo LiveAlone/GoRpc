@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package lib;
+
+option go_package = "./";
+
+message Lesson {
+  int64 id = 1;
+  string name = 2;
+  int64 time = 3;
+}

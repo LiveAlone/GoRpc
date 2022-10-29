@@ -1,9 +1,28 @@
 syntax = "proto3";
 
-package basic;
+package lib;
 
 option go_package = "./";
 
-message DemoProject {
-  string first = 1;
+import "item.proto";
+
+enum Gender {
+  NONE = 0;
+  MALE = 1;
+  FEMALE = 2;
 }
+
+message PersonItem {
+  string first_name = 1;
+  optional string second_name = 2;
+  repeated string third_names = 3;
+  map<string, string> forth_name_map = 4;
+  Gender gender = 5;
+}
+
+message Student {
+  PersonItem p = 1;
+  Lesson l = 2;
+}
+
+
