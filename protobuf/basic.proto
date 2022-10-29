@@ -22,7 +22,8 @@ message PersonItem {
 
 message Student {
   PersonItem p = 1;
-  Lesson l = 2;
+  optional PersonItem p2 = 2;
+  Lesson l = 3;
 }
 
 
