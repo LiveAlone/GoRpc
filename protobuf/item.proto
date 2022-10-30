@@ -9,3 +9,10 @@ message Lesson {
   string name = 2;
   int64 time = 3;
 }
+
+message SampleMessage {
+  oneof test_one_of {
+    string name = 4;
+    Lesson lesson = 5;
+  }
+}

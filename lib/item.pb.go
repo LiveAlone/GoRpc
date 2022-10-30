@@ -83,6 +83,87 @@ func (x *Lesson) GetTime() int64 {
 	return 0
 }
 
+type SampleMessage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to TestOneOf:
+	//
+	//	*SampleMessage_Name
+	//	*SampleMessage_Lesson
+	TestOneOf isSampleMessage_TestOneOf `protobuf_oneof:"test_one_of"`
+}
+
+func (x *SampleMessage) Reset() {
+	*x = SampleMessage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_item_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SampleMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SampleMessage) ProtoMessage() {}
+
+func (x *SampleMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_item_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SampleMessage.ProtoReflect.Descriptor instead.
+func (*SampleMessage) Descriptor() ([]byte, []int) {
+	return file_item_proto_rawDescGZIP(), []int{1}
+}
+
+func (m *SampleMessage) GetTestOneOf() isSampleMessage_TestOneOf {
+	if m != nil {
+		return m.TestOneOf
+	}
+	return nil
+}
+
+func (x *SampleMessage) GetName() string {
+	if x, ok := x.GetTestOneOf().(*SampleMessage_Name); ok {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SampleMessage) GetLesson() *Lesson {
+	if x, ok := x.GetTestOneOf().(*SampleMessage_Lesson); ok {
+		return x.Lesson
+	}
+	return nil
+}
+
+type isSampleMessage_TestOneOf interface {
+	isSampleMessage_TestOneOf()
+}
+
+type SampleMessage_Name struct {
+	Name string `protobuf:"bytes,4,opt,name=name,proto3,oneof"`
+}
+
+type SampleMessage_Lesson struct {
+	Lesson *Lesson `protobuf:"bytes,5,opt,name=lesson,proto3,oneof"`
+}
+
+func (*SampleMessage_Name) isSampleMessage_TestOneOf() {}
+
+func (*SampleMessage_Lesson) isSampleMessage_TestOneOf() {}
+
 var File_item_proto protoreflect.FileDescriptor
 
 var file_item_proto_rawDesc = []byte{
@@ -91,8 +172,13 @@ var file_item_proto_rawDesc = []byte{
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e,
 	0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
 	0x12, 0x0a, 0x04, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x74,
-	0x69, 0x6d, 0x65, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x69, 0x6d, 0x65, 0x22, 0x5b, 0x0a, 0x0d, 0x53, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x12, 0x14, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x48, 0x00, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x25, 0x0a, 0x06, 0x6c, 0x65,
+	0x73, 0x73, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x6c, 0x69, 0x62,
+	0x2e, 0x4c, 0x65, 0x73, 0x73, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x06, 0x6c, 0x65, 0x73, 0x73, 0x6f,
+	0x6e, 0x42, 0x0d, 0x0a, 0x0b, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x6f, 0x6e, 0x65, 0x5f, 0x6f, 0x66,
+	0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -107,16 +193,18 @@ func file_item_proto_rawDescGZIP() []byte {
 	return file_item_proto_rawDescData
 }
 
-var file_item_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_item_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_item_proto_goTypes = []interface{}{
-	(*Lesson)(nil), // 0: lib.Lesson
+	(*Lesson)(nil),        // 0: lib.Lesson
+	(*SampleMessage)(nil), // 1: lib.SampleMessage
 }
 var file_item_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: lib.SampleMessage.lesson:type_name -> lib.Lesson
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_item_proto_init() }
@@ -137,6 +225,22 @@ func file_item_proto_init() {
 				return nil
 			}
 		}
+		file_item_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SampleMessage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_item_proto_msgTypes[1].OneofWrappers = []interface{}{
+		(*SampleMessage_Name)(nil),
+		(*SampleMessage_Lesson)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -144,7 +248,7 @@ func file_item_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_item_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
