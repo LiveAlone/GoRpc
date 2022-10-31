@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package lib;
+package protobuf;
 
-option go_package = "./";
+option go_package = "./lib";
 
 message Lesson {
   int64 id = 1;
