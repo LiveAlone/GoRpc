@@ -3,4 +3,4 @@ TARGET_DIR="."
 
 rm -rf "lib"
 
-protoc -I=$SRC_DIR --go_out=$TARGET_DIR $SRC_DIR/*.proto
+protoc -I=$SRC_DIR --go_out=$TARGET_DIR --go-grpc_out=$TARGET_DIR $SRC_DIR/*.proto
