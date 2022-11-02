@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"github.com/LiveAlone/GoRpc/lib"
 	"google.golang.org/grpc"
@@ -20,7 +19,6 @@ func (s *server) SayHello(ctx context.Context, in *lib.HelloRequest) (*lib.Hello
 }
 
 func main() {
-	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 7070))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
