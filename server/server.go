@@ -18,6 +18,11 @@ func (s *server) SayHello(ctx context.Context, in *lib.HelloRequest) (*lib.Hello
 	return &lib.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
 
+func (s *server) SayHelloAgain(ctx context.Context, in *lib.HelloRequest) (*lib.HelloReply, error) {
+	log.Printf("Received: %v", in.GetName())
+	return &lib.HelloReply{Message: "Hello " + in.GetName()}, nil
+}
+
 func main() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 7070))
 	if err != nil {
