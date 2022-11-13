@@ -50,20 +50,43 @@ func main() {
 	//}
 
 	// stream 参数流数据
-	stream, err := c.SayHelloStreamParam(context.Background())
+	//stream, err := c.SayHelloStreamParam(context.Background())
+	//if err != nil {
+	//	log.Printf("say hello param request error, %v", err)
+	//}
+	//for i := 0; i < 100; i++ {
+	//	err = stream.Send(&lib.HelloRequest{Name: fmt.Sprintf("ids value is %d", i)})
+	//	if err != nil {
+	//		log.Printf("send err %v", err)
+	//	}
+	//}
+	//reply, err := stream.CloseAndRecv()
+	//if err != nil {
+	//	log.Printf("response recv error %v", err)
+	//	return
+	//}
+	//log.Printf("reply content is %v", reply)
+
+	// stream 双向沟通
+	stream, err := c.SayHelloStream(context.Background())
 	if err != nil {
-		log.Printf("say hello param request error, %v", err)
-	}
-	for i := 0; i < 100; i++ {
-		err = stream.Send(&lib.HelloRequest{Name: fmt.Sprintf("ids value is %d", i)})
-		if err != nil {
-			log.Printf("send err %v", err)
-		}
-	}
-	reply, err := stream.CloseAndRecv()
-	if err != nil {
-		log.Printf("response recv error %v", err)
+		log.Printf("stream gain error %v", err)
 		return
 	}
-	log.Printf("reply content is %v", reply)
+
+	for i := 0; i < 10; i++ {
+		stream.Send(&lib.HelloRequest{
+			Name: fmt.Sprintf("%d", i),
+		})
+	}
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+	fmt.Println(stream.Recv())
+
+	err = stream.CloseSend()
+	fmt.Println(err)
 }

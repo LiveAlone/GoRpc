@@ -58,6 +58,31 @@ func (s *server) SayHelloStreamParam(stream lib.HelloWorldService_SayHelloStream
 	return err
 }
 
+func (s *server) SayHelloStream(stream lib.HelloWorldService_SayHelloStreamServer) error {
+	ct := 0
+	for ct < 10 {
+		req, err := stream.Recv()
+		if err != nil {
+			log.Printf("recv error %v", err)
+			break
+		}
+		log.Printf("req content is %v", req)
+
+		ct += 1
+		if ct%2 == 0 {
+			err = stream.Send(&lib.HelloReply{
+				Message: fmt.Sprintf("hello stream resp %v", ct),
+			})
+			if err != nil {
+				log.Printf("resp to client error, cause: %v", err)
+				break
+			}
+		}
+	}
+	fmt.Println("all finish")
+	return nil
+}
+
 func main() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", ServerPort))
 	if err != nil {
