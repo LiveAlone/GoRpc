@@ -14,5 +14,11 @@ message HelloReply {
 
 service HelloWorldService {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+  rpc SayHelloStreamReturn(HelloRequest) returns (stream HelloReply){}
+
+  rpc SayHelloStreamParam(stream HelloRequest) returns (HelloReply){}
+
+  rpc SayHelloStream(stream HelloRequest) returns (stream HelloReply){}
 }
 

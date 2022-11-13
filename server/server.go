@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/LiveAlone/GoRpc/lib"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 	"net"
 )
@@ -18,6 +19,43 @@ type server struct {
 func (s *server) SayHello(ctx context.Context, in *lib.HelloRequest) (*lib.HelloReply, error) {
 	log.Printf("Received: %v", in.GetName())
 	return &lib.HelloReply{Message: "Hello " + in.GetName()}, nil
+}
+
+func (s *server) SayHelloStreamReturn(in *lib.HelloRequest, stream lib.HelloWorldService_SayHelloStreamReturnServer) error {
+	log.Printf("Stream Return Received: %v", in.GetName())
+	// stream 分批返回数据
+	for i := 0; i < 10; i++ {
+		err := stream.Send(&lib.HelloReply{
+			Message: "Hello " + in.GetName() + " Stream Return",
+		})
+		if err != nil {
+			log.Printf("stream return get err %v", err)
+			return err
+		}
+
+	}
+	return nil
+}
+
+func (s *server) SayHelloStreamParam(stream lib.HelloWorldService_SayHelloStreamParamServer) error {
+	// 批量数据请求
+	for i := 0; i < 5; i++ {
+		rq, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		log.Printf("stream param get req %v", rq)
+	}
+	err := stream.SendAndClose(&lib.HelloReply{
+		Message: "SayHelloStreamParam return",
+	})
+	if err != nil {
+		log.Printf("params request error %v", err)
+	}
+	return err
 }
 
 func main() {
