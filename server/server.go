@@ -9,8 +9,10 @@ import (
 	"net"
 )
 
+const ServerPort = 7070
+
 type server struct {
-	lib.UnimplementedGreeterServer
+	lib.UnimplementedHelloWorldServiceServer
 }
 
 func (s *server) SayHello(ctx context.Context, in *lib.HelloRequest) (*lib.HelloReply, error) {
@@ -18,19 +20,15 @@ func (s *server) SayHello(ctx context.Context, in *lib.HelloRequest) (*lib.Hello
 	return &lib.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
 
-func (s *server) SayHelloAgain(ctx context.Context, in *lib.HelloRequest) (*lib.HelloReply, error) {
-	log.Printf("Received: %v", in.GetName())
-	return &lib.HelloReply{Message: "Hello " + in.GetName()}, nil
-}
-
 func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 7070))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	opt := grpc.ChainUnaryInterceptor(firstServerInterceptor)
 	s := grpc.NewServer(opt)
-	lib.RegisterGreeterServer(s, &server{})
+	lib.RegisterHelloWorldServiceServer(s, &server{})
+
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
